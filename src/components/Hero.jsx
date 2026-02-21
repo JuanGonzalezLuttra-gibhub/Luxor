@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, Quote, Mail } from 'lucide-react'
+import doblecoche from "../Recursos/doblecoche.png"
 
 const Hero = () => {
     return (
@@ -23,7 +24,7 @@ const Hero = () => {
                 <div style={{
                     position: 'absolute',
                     inset: 0,
-                    backgroundImage: 'url("/src/Recursos/doblecoche.png")',
+                    backgroundImage: `url(${doblecoche})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
