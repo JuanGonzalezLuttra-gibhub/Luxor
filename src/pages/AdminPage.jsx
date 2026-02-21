@@ -3,18 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Edit, Save, X, ArrowLeft, Image as ImageIcon, LayoutDashboard, Wrench, Camera } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { carService } from '../services/carService';
+import { uploadImage } from '../services/cloudinaryService';
 
 const AdminPage = () => {
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [uploading, setUploading] = useState(false);
     const [editingId, setEditingId] = useState(null);
-    const [newImageUrl, setNewImageUrl] = useState('');
     const [formData, setFormData] = useState({
         id: '',
         marca: '',
         modelo: '',
         precio: '',
-        images: [],
+        imagenes: [], // Estructura: [{ url: string, portada: boolean }]
         categoria: 'SUV',
         descripcion: '',
         especificaciones: { motor: '', potencia: '', aceleracion: '', velocidadMax: '' },
@@ -35,7 +36,12 @@ const AdminPage = () => {
     }, []);
 
     const handleEdit = (car) => {
-        setFormData({ ...car });
+        // Asegurar que el formato de imágenes sea el correcto para el estado
+        const formattedCar = {
+            ...car,
+            imagenes: car.imagenes || (car.images ? car.images.map((url, i) => ({ url, portada: i === 0 })) : [])
+        };
+        setFormData(formattedCar);
         setEditingId(car.id);
     };
 
@@ -46,20 +52,48 @@ const AdminPage = () => {
         }
     };
 
-    const handleAddImage = () => {
-        if (!newImageUrl) return;
-        setFormData(prev => ({
-            ...prev,
-            images: [...prev.images, newImageUrl]
-        }));
-        setNewImageUrl('');
+    const handleFileChange = async (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
+        setUploading(true);
+        try {
+            const uploadPromises = files.map(file => uploadImage(file));
+            const uploadedUrls = await Promise.all(uploadPromises);
+
+            const newImages = uploadedUrls.map((url, index) => ({
+                url,
+                portada: formData.imagenes.length === 0 && index === 0 // Solo el primero si la galería estaba vacía
+            }));
+
+            // Si la galería estaba vacía, el primer subido debe ser portada
+            if (formData.imagenes.length === 0 && newImages.length > 0) {
+                newImages[0].portada = true;
+            }
+
+            setFormData(prev => ({
+                ...prev,
+                imagenes: [...prev.imagenes, ...newImages]
+            }));
+        } catch (error) {
+            alert("Error al subir imágenes");
+        } finally {
+            setUploading(false);
+        }
     };
 
     const removeImage = (index) => {
-        setFormData(prev => ({
-            ...prev,
-            images: prev.images.filter((_, i) => i !== index)
-        }));
+        setFormData(prev => {
+            const newImagenes = prev.imagenes.filter((_, i) => i !== index);
+            // Si eliminamos la portada, asignar una nueva si quedan imágenes
+            if (prev.imagenes[index]?.portada && newImagenes.length > 0) {
+                newImagenes[0].portada = true;
+            }
+            return {
+                ...prev,
+                imagenes: newImagenes
+            };
+        });
     };
 
     const handleSave = async (e) => {
@@ -77,8 +111,7 @@ const AdminPage = () => {
         if (editingId && editingId !== 'new') {
             await carService.updateCar(editingId, updatedCar);
         } else {
-            const newId = `${formData.marca}-${formData.modelo}`.toLowerCase().replace(/\s+/g, '-');
-            await carService.addCar({ ...updatedCar, id: newId });
+            await carService.addCar(updatedCar);
         }
 
         resetForm();
@@ -91,14 +124,14 @@ const AdminPage = () => {
             marca: '',
             modelo: '',
             precio: '',
-            images: [],
+            imagenes: [],
             categoria: 'SUV',
             descripcion: '',
             especificaciones: { motor: '', potencia: '', aceleracion: '', velocidadMax: '' },
             estado: 'disponible'
         });
         setEditingId(null);
-        setNewImageUrl('');
+        setUploading(false);
     };
 
     if (loading) return <div style={{ color: 'white', textAlign: 'center', padding: '10rem' }}>Cargando Inventario...</div>;
@@ -135,7 +168,7 @@ const AdminPage = () => {
                             gap: '2rem',
                             border: '1px solid var(--color-dark-gray)'
                         }}>
-                            <img src={car.images?.[0] || car.imagenUrl} alt="" style={{ width: '100px', height: '60px', borderRadius: '4px', objectFit: 'cover' }} />
+                            <img src={car.imagenes?.[0]?.url || car.images?.[0] || car.imagenUrl} alt="" style={{ width: '100px', height: '60px', borderRadius: '4px', objectFit: 'cover' }} />
                             <div style={{ flex: 1 }}>
                                 <h3 style={{ margin: 0 }}>{car.marca} {car.modelo}</h3>
                                 <span className="silver-text" style={{ fontSize: '0.875rem' }}>{(car.precio || 0).toLocaleString()}€ | {car.categoria}</span>
@@ -273,37 +306,59 @@ const AdminPage = () => {
                                                 <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Galería de Imágenes</h3>
                                             </div>
 
-                                            <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-                                                <input
-                                                    style={{ ...inputStyle, flex: 1 }}
-                                                    placeholder="URL de la imagen..."
-                                                    value={newImageUrl}
-                                                    onChange={e => setNewImageUrl(e.target.value)}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={handleAddImage}
-                                                    className="btn-secondary"
-                                                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                                            <div style={{ marginBottom: '2rem' }}>
+                                                <label
+                                                    style={{
+                                                        ...inputStyle,
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        gap: '1rem',
+                                                        cursor: 'pointer',
+                                                        border: '2px dashed var(--color-dark-gray)',
+                                                        padding: '2rem'
+                                                    }}
                                                 >
-                                                    <Plus size={18} /> Añadir
-                                                </button>
+                                                    {uploading ? (
+                                                        <span>Subiendo imágenes...</span>
+                                                    ) : (
+                                                        <>
+                                                            <ImageIcon size={24} />
+                                                            <span>Seleccionar o arrastrar imágenes</span>
+                                                        </>
+                                                    )}
+                                                    <input
+                                                        type="file"
+                                                        multiple
+                                                        accept="image/*"
+                                                        onChange={handleFileChange}
+                                                        style={{ display: 'none' }}
+                                                        disabled={uploading}
+                                                    />
+                                                </label>
                                             </div>
 
                                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1.5rem' }}>
-                                                {formData.images.map((img, idx) => (
-                                                    <div key={idx} style={{ position: 'relative', borderRadius: '12px', overflow: 'hidden', aspectRatio: '16/10', border: '1px solid var(--color-dark-gray)' }}>
-                                                        <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                {formData.imagenes.map((img, idx) => (
+                                                    <div key={idx} style={{
+                                                        position: 'relative',
+                                                        borderRadius: '12px',
+                                                        overflow: 'hidden',
+                                                        aspectRatio: '16/10',
+                                                        border: img.portada ? '2px solid var(--color-silver)' : '1px solid var(--color-dark-gray)'
+                                                    }}>
+                                                        <img src={img.url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                         <div style={{
                                                             position: 'absolute',
                                                             bottom: 0, insetInline: 0,
-                                                            background: 'rgba(0,0,0,0.6)',
+                                                            background: img.portada ? 'var(--color-silver)' : 'rgba(0,0,0,0.6)',
                                                             padding: '0.4rem',
                                                             fontSize: '0.65rem',
                                                             textAlign: 'center',
-                                                            color: idx === 0 ? 'var(--color-silver)' : 'white'
+                                                            color: img.portada ? 'black' : 'white',
+                                                            fontWeight: img.portada ? 700 : 400
                                                         }}>
-                                                            {idx === 0 ? 'PORTADA' : `Imagen ${idx + 1}`}
+                                                            {img.portada ? 'PORTADA' : `Imagen ${idx + 1}`}
                                                         </div>
                                                         <button
                                                             type="button"
@@ -312,9 +367,21 @@ const AdminPage = () => {
                                                         >
                                                             <X size={12} />
                                                         </button>
+                                                        {!img.portada && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    const newImgs = formData.imagenes.map((im, i) => ({ ...im, portada: i === idx }));
+                                                                    setFormData({ ...formData, imagenes: newImgs });
+                                                                }}
+                                                                style={{ position: 'absolute', top: '5px', left: '5px', background: 'rgba(255,255,255,0.2)', color: 'white', borderRadius: '4px', padding: '2px 5px', fontSize: '0.5rem' }}
+                                                            >
+                                                                Set Portada
+                                                            </button>
+                                                        )}
                                                     </div>
                                                 ))}
-                                                {formData.images.length === 0 && (
+                                                {formData.imagenes.length === 0 && !uploading && (
                                                     <div style={{ gridColumn: '1/-1', padding: '3rem', border: '2px dashed var(--color-dark-gray)', borderRadius: '12px', textAlign: 'center', color: 'var(--color-gray)' }}>
                                                         No hay imágenes añadidas. La primera será la portada.
                                                     </div>

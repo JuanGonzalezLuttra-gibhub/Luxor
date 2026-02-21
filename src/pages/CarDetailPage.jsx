@@ -47,7 +47,7 @@ const CarDetailPage = () => {
     if (loading) return <div style={{ minHeight: '100vh', background: 'var(--color-black)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Cargando detalles...</div>;
     if (!car) return <div style={{ minHeight: '100vh', background: 'var(--color-black)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Coche no encontrado</div>;
 
-    const images = car.images || [car.imagenUrl];
+    const images = car.imagenes?.map(img => img.url) || car.images || [car.imagenUrl];
 
     return (
         <motion.div

@@ -50,7 +50,12 @@ const CarGallery = ({ cars }) => {
                             <Link to={`/car/${car.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 <div style={{ height: '250px', overflow: 'hidden', position: 'relative' }}>
                                     <motion.img
-                                        src={car.images?.[0] || car.imagenUrl}
+                                        src={
+                                            car.imagenes?.find(img => img.portada)?.url ||
+                                            car.imagenes?.[0]?.url ||
+                                            car.images?.[0] ||
+                                            car.imagenUrl
+                                        }
                                         alt={`${car.marca} ${car.modelo}`}
                                         whileHover={{ scale: 1.1 }}
                                         transition={{ duration: 0.6 }}

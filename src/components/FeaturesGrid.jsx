@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { features } from '../data.jsx'
+import { features } from '../constants/features.jsx'
 
 const FeaturesGrid = () => {
     return (
