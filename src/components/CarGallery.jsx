@@ -53,10 +53,11 @@ const CarGallery = ({ cars }) => {
                                         src={
                                             car.imagenes?.find(img => img.portada)?.url ||
                                             car.imagenes?.[0]?.url ||
+                                            (typeof car.imagenes?.[0] === 'string' ? car.imagenes[0] : null) ||
                                             car.images?.[0] ||
                                             car.imagenUrl
                                         }
-                                        alt={`${car.marca} ${car.modelo}`}
+                                        alt={`${car.marca || ''} ${car.modelo || ''}`}
                                         whileHover={{ scale: 1.1 }}
                                         transition={{ duration: 0.6 }}
                                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}

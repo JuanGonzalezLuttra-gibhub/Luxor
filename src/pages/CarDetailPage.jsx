@@ -47,7 +47,13 @@ const CarDetailPage = () => {
     if (loading) return <div style={{ minHeight: '100vh', background: 'var(--color-black)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Cargando detalles...</div>;
     if (!car) return <div style={{ minHeight: '100vh', background: 'var(--color-black)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Coche no encontrado</div>;
 
-    const images = car.imagenes?.map(img => img.url) || car.images || [car.imagenUrl];
+    // Normalización de imágenes: soporta array de objetos {url} o array de strings
+    const images = (car.imagenes || car.images || [car.imagenUrl]).map(img =>
+        typeof img === 'string' ? img : (img?.url || '')
+    ).filter(url => url !== '');
+
+    // Fallback estructural para especificaciones
+    const specs = car.especificaciones || {};
 
     return (
         <motion.div
@@ -143,19 +149,19 @@ const CarDetailPage = () => {
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '4rem' }}>
                             <div style={specItem}>
                                 <label style={specLabel}>Motor</label>
-                                <div style={specValue}>{car.especificaciones.motor}</div>
+                                <div style={specValue}>{specs.motor || '-'}</div>
                             </div>
                             <div style={specItem}>
                                 <label style={specLabel}>Potencia</label>
-                                <div style={specValue}>{car.especificaciones.potencia}</div>
+                                <div style={specValue}>{specs.potencia || '-'}</div>
                             </div>
                             <div style={specItem}>
                                 <label style={specLabel}>0-100 km/h</label>
-                                <div style={specValue}>{car.especificaciones.aceleracion}</div>
+                                <div style={specValue}>{specs.aceleracion || '-'}</div>
                             </div>
                             <div style={specItem}>
                                 <label style={specLabel}>V. Máxima</label>
-                                <div style={specValue}>{car.especificaciones.velocidadMax}</div>
+                                <div style={specValue}>{specs.velocidadMax || '-'}</div>
                             </div>
                         </div>
 

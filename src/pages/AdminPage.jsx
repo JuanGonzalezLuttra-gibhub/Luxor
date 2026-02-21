@@ -103,15 +103,27 @@ const AdminPage = () => {
             ? parseInt(formData.precio.replace(/\./g, '').replace('€', ''))
             : formData.precio;
 
-        const updatedCar = {
-            ...formData,
-            precio: cleanPrice || 0
+        // Estructura explícita para asegurar consistencia en Firestore
+        const carData = {
+            marca: formData.marca,
+            modelo: formData.modelo,
+            precio: cleanPrice || 0,
+            categoria: formData.categoria,
+            descripcion: formData.descripcion,
+            imagenes: formData.imagenes,
+            estado: formData.estado,
+            especificaciones: {
+                motor: formData.especificaciones?.motor || '',
+                potencia: formData.especificaciones?.potencia || '',
+                aceleracion: formData.especificaciones?.aceleracion || '',
+                velocidadMax: formData.especificaciones?.velocidadMax || ''
+            }
         };
 
         if (editingId && editingId !== 'new') {
-            await carService.updateCar(editingId, updatedCar);
+            await carService.updateCar(editingId, carData);
         } else {
-            await carService.addCar(updatedCar);
+            await carService.addCar(carData);
         }
 
         resetForm();
