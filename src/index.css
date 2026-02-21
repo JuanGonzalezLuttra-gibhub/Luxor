@@ -1,0 +1,141 @@
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  /* Colors */
+  --color-black: #000000;
+  --color-anthracite: #121212;
+  --color-silver: #C0C0C0;
+  --color-silver-hover: #E5E4E2;
+  --color-white: #FFFFFF;
+  --color-gray: #A0A0A0;
+  --color-dark-gray: #1A1A1A;
+
+  /* Spacing */
+  --space-unit: 1rem;
+  --section-padding: calc(var(--space-unit) * 6);
+
+  /* Design Tokens */
+  --radius-lg: 16px;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --glass-bg: rgba(26, 26, 26, 0.8);
+  --glass-border: rgba(212, 175, 55, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Outfit', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-smooth);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  transition: var(--transition-smooth);
+}
+
+/* Base Layout */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section {
+  padding: var(--section-padding) 0;
+}
+
+/* Premium Styles */
+.premium-card {
+  background: var(--color-anthracite);
+  border: 1px solid var(--color-dark-gray);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.premium-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-silver);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.silver-text {
+  color: var(--color-silver);
+}
+
+.btn-primary {
+  background-color: var(--color-silver);
+  color: var(--color-black);
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-silver-hover);
+  transform: scale(1.02);
+}
+
+.btn-secondary {
+  border: 1px solid var(--color-silver);
+  color: var(--color-silver);
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(192, 192, 192, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.hover-silver:hover {
+  color: var(--color-silver) !important;
+}
