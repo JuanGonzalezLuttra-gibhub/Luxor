@@ -19,7 +19,7 @@ const AboutLuxor = () => {
                 <div style={{
                     position: 'absolute',
                     inset: 0,
-                    backgroundImage: `url(${techocochesverde})`
+                    backgroundImage: `url(${techocochesverde})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     opacity: 0.1,
