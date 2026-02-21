@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import techocochesverde from "../Recursos/techocochesverde.png"
 
 const AboutLuxor = () => {
     return (
@@ -18,7 +19,7 @@ const AboutLuxor = () => {
                 <div style={{
                     position: 'absolute',
                     inset: 0,
-                    backgroundImage: 'url("/src/Recursos/techocochesverde.png")',
+                    backgroundImage: `url(${techocochesverde})`
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     opacity: 0.1,
