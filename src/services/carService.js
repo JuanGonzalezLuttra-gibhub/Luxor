@@ -24,8 +24,8 @@ export const carService = {
             const q = query(carsCol, orderBy('marca', 'asc'));
             const carSnapshot = await getDocs(q);
             return carSnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
+                ...doc.data(),
+                id: doc.id
             }));
         } catch (error) {
             console.error("Error fetching cars:", error);
@@ -43,7 +43,7 @@ export const carService = {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                return { id: docSnap.id, ...docSnap.data() };
+                return { ...docSnap.data(), id: docSnap.id };
             } else {
                 return null;
             }
@@ -64,7 +64,7 @@ export const carService = {
                 ...carData,
                 createdAt: new Date().toISOString()
             });
-            return { id: docRef.id, ...carData };
+            return { ...carData, id: docRef.id };
         } catch (error) {
             console.error("Error creating car:", error);
             throw error;
@@ -87,7 +87,7 @@ export const carService = {
         try {
             const docRef = doc(db, COLLECTION_NAME, id);
             await updateDoc(docRef, updatedData);
-            return { id, ...updatedData };
+            return { ...updatedData, id };
         } catch (error) {
             console.error("Error updating car:", error);
             throw error;
