@@ -17,7 +17,6 @@ const WhatsAppFloating = () => {
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="btn-pulse"
             style={{
                 position: 'fixed',
                 bottom: '2rem',

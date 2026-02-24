@@ -48,9 +48,9 @@ const CarGallery = ({ cars }) => {
                             }}
                             whileTap={{
                                 scale: 0.98,
-                                boxShadow: "0 15px 30px rgba(0,0,0,0.9)"
+                                boxShadow: "0 10px 25px rgba(192,192,192,0.1)"
                             }}
-                            style={{ transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)', cursor: 'pointer' }}
+                            style={{ cursor: 'pointer' }}
                         >
                             <Link to={`/car/${car.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 <div style={{ height: '250px', overflow: 'hidden', position: 'relative' }}>
