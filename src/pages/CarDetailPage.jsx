@@ -61,7 +61,7 @@ const CarDetailPage = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="page-detail"
-            style={{ background: 'var(--color-black)', minHeight: '100vh', padding: '8rem 0' }}
+            style={{ background: 'var(--color-black)', minHeight: '100vh', padding: '6rem 1.5rem' }}
         >
             <div className="container">
                 <Link
@@ -79,7 +79,7 @@ const CarDetailPage = () => {
                     <ArrowLeft size={18} /> Volver al catálogo
                 </Link>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'start' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '4rem', alignItems: 'start' }}>
                     {/* Left: Image Gallery */}
                     <div>
                         <div style={{
