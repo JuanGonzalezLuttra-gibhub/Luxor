@@ -41,7 +41,7 @@ const Hero = () => {
                 }} />
             </div>
 
-            <div className="container" style={{ padding: '4rem 0', position: 'relative', zIndex: 2 }}>
+            <div className="container" style={{ padding: '6rem 1.5rem', position: 'relative', zIndex: 2 }}>
                 <div className="hero-content" style={{ maxWidth: '800px' }}>
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}

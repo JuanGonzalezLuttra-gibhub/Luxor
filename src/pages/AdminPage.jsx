@@ -160,7 +160,15 @@ const AdminPage = () => {
         <div style={{ background: 'var(--color-black)', minHeight: '100vh', padding: '8rem 0' }}>
             <div className="container">
                 {/* Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4rem' }}>
+                <div
+                    className="admin-header"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '4rem'
+                    }}
+                >
                     <div>
                         <Link to="/" style={{ color: 'var(--color-silver)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                             <ArrowLeft size={18} /> Volver a la Web
@@ -244,7 +252,7 @@ const AdminPage = () => {
                                     boxShadow: '0 30px 60px rgba(0,0,0,0.5)'
                                 }}
                             >
-                                <div style={{ padding: '3rem' }}>
+                                <div className="admin-modal" style={{ padding: '3rem' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                                         <h2 style={{ fontSize: '2rem' }}>
                                             {editingId === 'new' ? 'Añadir ' : 'Editar '}
@@ -263,7 +271,7 @@ const AdminPage = () => {
                                                 <LayoutDashboard size={20} />
                                                 <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Información Básica</h3>
                                             </div>
-                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }}>
+                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
                                                 <div style={inputGroup}>
                                                     <label style={labelStyle}>Marca</label>
                                                     <input required style={inputStyle} value={formData.marca} onChange={e => setFormData({ ...formData, marca: e.target.value })} placeholder="Ej: Lamborghini" />
@@ -313,7 +321,7 @@ const AdminPage = () => {
                                                 <Wrench size={20} />
                                                 <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Especificaciones Técnicas</h3>
                                             </div>
-                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
+                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
                                                 <div style={inputGroup}>
                                                     <label style={labelStyle}>Motor</label>
                                                     <input style={inputStyle} value={formData.especificaciones.motor} onChange={e => setFormData({ ...formData, especificaciones: { ...formData.especificaciones, motor: e.target.value } })} />
