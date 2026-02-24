@@ -151,19 +151,90 @@ button {
     line-height: 1.1 !important;
   }
 
+  /* ── Admin Page ── */
+  .admin-page {
+    padding: 5rem 0 2rem !important;
+  }
+
   .admin-header {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 1.5rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .admin-header h1 {
+    font-size: 2rem !important;
+  }
+
+  /* ── Inventory List Items ── */
+  .admin-car-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+    padding: 1.2rem !important;
+  }
+
+  .admin-car-item img {
+    width: 100% !important;
+    height: 140px !important;
+    border-radius: 8px !important;
+  }
+
+  .admin-car-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  /* ── Editor: Fullscreen Native ── */
+  .admin-editor-wrapper {
+    padding: 0 !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+  }
+
+  .admin-editor-overlay {
+    display: none !important;
+  }
+
+  .admin-editor-content {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow-y: auto !important;
   }
 
   .admin-modal {
-    padding: 1.5rem !important;
-    border-radius: 0 !important;
-    max-height: 100vh !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    margin: 0 !important;
+    padding: 1.2rem !important;
+  }
+
+  .admin-editor-header {
+    margin-bottom: 2rem !important;
+    position: sticky;
+    top: 0;
+    background: var(--color-anthracite);
+    z-index: 10;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-dark-gray);
+  }
+
+  .admin-editor-title {
+    font-size: 1.4rem !important;
+  }
+
+  /* ── Force Single Column ── */
+  .admin-grid-basic,
+  .admin-grid-specs,
+  .admin-grid-gallery {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-desc-field {
+    grid-column: span 1 !important;
   }
 }
 

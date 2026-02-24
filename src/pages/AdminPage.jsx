@@ -157,7 +157,7 @@ const AdminPage = () => {
     if (loading) return <div style={{ color: 'white', textAlign: 'center', padding: '10rem' }}>Cargando Inventario...</div>;
 
     return (
-        <div style={{ background: 'var(--color-black)', minHeight: '100vh', padding: '8rem 0' }}>
+        <div className="admin-page" style={{ background: 'var(--color-black)', minHeight: '100vh', padding: '8rem 0' }}>
             <div className="container">
                 {/* Header */}
                 <div
@@ -188,7 +188,7 @@ const AdminPage = () => {
                 {/* Inventory List */}
                 <div style={{ display: 'grid', gap: '1.5rem' }}>
                     {cars.map(car => (
-                        <div key={car.id} style={{
+                        <div key={car.id} className="admin-car-item" style={{
                             background: 'var(--color-anthracite)',
                             padding: '1.5rem 2rem',
                             borderRadius: '12px',
@@ -198,11 +198,11 @@ const AdminPage = () => {
                             border: '1px solid var(--color-dark-gray)'
                         }}>
                             <img src={car.imagenes?.[0]?.url || car.images?.[0] || car.imagenUrl} alt="" style={{ width: '100px', height: '60px', borderRadius: '4px', objectFit: 'cover' }} />
-                            <div style={{ flex: 1 }}>
+                            <div style={{ flex: 1, minWidth: 0 }}>
                                 <h3 style={{ margin: 0 }}>{car.marca} {car.modelo}</h3>
                                 <span className="silver-text" style={{ fontSize: '0.875rem' }}>{(car.precio || 0).toLocaleString()}€ | {car.categoria}</span>
                             </div>
-                            <div style={{ display: 'flex', gap: '1rem' }}>
+                            <div className="admin-car-actions" style={{ display: 'flex', gap: '1rem' }}>
                                 <motion.button whileTap={{ scale: 0.95 }} onClick={() => handleEdit(car)} className="btn-secondary" style={{ padding: '0.5rem 1rem' }}><Edit size={16} /></motion.button>
                                 <motion.button whileTap={{ scale: 0.95 }} onClick={() => handleDelete(car.id)} style={{ color: '#ff4444', padding: '0.5rem' }}><Trash2 size={20} /></motion.button>
                             </div>
@@ -213,7 +213,7 @@ const AdminPage = () => {
                 {/* MODAL EDITOR */}
                 <AnimatePresence>
                     {editingId !== null && (
-                        <div style={{
+                        <div className="admin-editor-wrapper" style={{
                             position: 'fixed',
                             inset: 0,
                             zIndex: 1000,
@@ -224,6 +224,7 @@ const AdminPage = () => {
                         }}>
                             {/* Overlay */}
                             <motion.div
+                                className="admin-editor-overlay"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
@@ -238,6 +239,7 @@ const AdminPage = () => {
 
                             {/* Modal Content */}
                             <motion.div
+                                className="admin-editor-content"
                                 initial={{ opacity: 0, scale: 0.9, y: 30 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.9, y: 30 }}
@@ -254,8 +256,8 @@ const AdminPage = () => {
                                 }}
                             >
                                 <div className="admin-modal" style={{ padding: '3rem' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
-                                        <h2 style={{ fontSize: '2rem' }}>
+                                    <div className="admin-editor-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+                                        <h2 className="admin-editor-title" style={{ fontSize: '2rem' }}>
                                             {editingId === 'new' ? 'Añadir ' : 'Editar '}
                                             <span className="silver-text">Vehículo</span>
                                         </h2>
@@ -272,7 +274,7 @@ const AdminPage = () => {
                                                 <LayoutDashboard size={20} />
                                                 <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Información Básica</h3>
                                             </div>
-                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
+                                            <div className="admin-grid-basic" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
                                                 <div style={inputGroup}>
                                                     <label style={labelStyle}>Marca</label>
                                                     <input required style={inputStyle} value={formData.marca} onChange={e => setFormData({ ...formData, marca: e.target.value })} placeholder="Ej: Lamborghini" />
@@ -309,7 +311,7 @@ const AdminPage = () => {
                                                         {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                                                     </select>
                                                 </div>
-                                                <div style={{ ...inputGroup, gridColumn: 'span 2' }}>
+                                                <div className="admin-desc-field" style={{ ...inputGroup, gridColumn: 'span 2' }}>
                                                     <label style={labelStyle}>Descripción</label>
                                                     <textarea required style={{ ...inputStyle, minHeight: '120px' }} value={formData.descripcion} onChange={e => setFormData({ ...formData, descripcion: e.target.value })} />
                                                 </div>
@@ -322,7 +324,7 @@ const AdminPage = () => {
                                                 <Wrench size={20} />
                                                 <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Especificaciones Técnicas</h3>
                                             </div>
-                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+                                            <div className="admin-grid-specs" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
                                                 <div style={inputGroup}>
                                                     <label style={labelStyle}>Motor</label>
                                                     <input style={inputStyle} value={formData.especificaciones.motor} onChange={e => setFormData({ ...formData, especificaciones: { ...formData.especificaciones, motor: e.target.value } })} />
@@ -381,7 +383,7 @@ const AdminPage = () => {
                                                 </label>
                                             </div>
 
-                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1.5rem' }}>
+                                            <div className="admin-grid-gallery" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1.5rem' }}>
                                                 {formData.imagenes.map((img, idx) => (
                                                     <div key={idx} style={{
                                                         position: 'relative',
