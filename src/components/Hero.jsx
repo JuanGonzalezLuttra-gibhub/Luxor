@@ -71,10 +71,10 @@ const Hero = () => {
                             href="https://wa.me/34727762434"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn-primary"
+                            className="btn-primary btn-pulse"
                             style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1.25rem 2.5rem' }}
                             whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                            whileTap={{ scale: 0.97 }}
                         >
                             Consultar por WhatsApp
                         </motion.a>

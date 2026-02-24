@@ -1,7 +1,11 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 const WhatsAppFloating = () => {
+    const location = useLocation();
+
+    // Ocultar en la página de administración
+    if (location.pathname === '/admin') return null;
+
     return (
         <motion.a
             href="https://wa.me/34727762434"
@@ -10,7 +14,8 @@ const WhatsAppFloating = () => {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
+            className="btn-pulse"
             style={{
                 position: 'fixed',
                 bottom: '2rem',

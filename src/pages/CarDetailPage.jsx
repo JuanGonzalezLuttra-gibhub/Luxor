@@ -175,15 +175,17 @@ const CarDetailPage = () => {
                             </div>
                         </div>
 
-                        <a
+                        <motion.a
                             href={`https://wa.me/34727762434?text=${encodeURIComponent(`Hola estoy interesado en el ${car.marca} ${car.modelo}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn-primary"
+                            className="btn-primary btn-pulse"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.97 }}
                             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', padding: '1.5rem' }}
                         >
                             Consultar disponibilidad por WhatsApp
-                        </a>
+                        </motion.a>
                     </div>
                 </div>
             </div>

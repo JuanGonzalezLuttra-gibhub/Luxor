@@ -175,13 +175,14 @@ const AdminPage = () => {
                         </Link>
                         <h1 style={{ fontSize: '3rem' }}>Gestión de <span className="silver-text">Inventario</span></h1>
                     </div>
-                    <button
+                    <motion.button
                         onClick={() => setEditingId('new')}
                         className="btn-primary"
                         style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                        whileTap={{ scale: 0.97 }}
                     >
                         <Plus size={20} /> Añadir Vehículo
-                    </button>
+                    </motion.button>
                 </div>
 
                 {/* Inventory List */}
@@ -202,8 +203,8 @@ const AdminPage = () => {
                                 <span className="silver-text" style={{ fontSize: '0.875rem' }}>{(car.precio || 0).toLocaleString()}€ | {car.categoria}</span>
                             </div>
                             <div style={{ display: 'flex', gap: '1rem' }}>
-                                <button onClick={() => handleEdit(car)} className="btn-secondary" style={{ padding: '0.5rem 1rem' }}><Edit size={16} /></button>
-                                <button onClick={() => handleDelete(car.id)} style={{ color: '#ff4444', padding: '0.5rem' }}><Trash2 size={20} /></button>
+                                <motion.button whileTap={{ scale: 0.95 }} onClick={() => handleEdit(car)} className="btn-secondary" style={{ padding: '0.5rem 1rem' }}><Edit size={16} /></motion.button>
+                                <motion.button whileTap={{ scale: 0.95 }} onClick={() => handleDelete(car.id)} style={{ color: '#ff4444', padding: '0.5rem' }}><Trash2 size={20} /></motion.button>
                             </div>
                         </div>
                     ))}
@@ -431,14 +432,13 @@ const AdminPage = () => {
                                             </div>
                                         </section>
 
-                                        {/* ACTIONS */}
-                                        <div style={{ display: 'flex', gap: '1.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-dark-gray)' }}>
-                                            <button type="submit" className="btn-primary" style={{ flex: 1, padding: '1.25rem' }}>
+                                        <div style={{ display: 'flex', gap: '1.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-dark-gray)', flexWrap: 'wrap' }}>
+                                            <motion.button whileTap={{ scale: 0.97 }} type="submit" className="btn-primary" style={{ flex: '1 1 200px', padding: '1.25rem' }}>
                                                 <Save size={20} style={{ marginRight: '0.5rem' }} /> Guardar Vehículo
-                                            </button>
-                                            <button type="button" onClick={resetForm} className="btn-secondary" style={{ flex: 1 }}>
+                                            </motion.button>
+                                            <motion.button whileTap={{ scale: 0.97 }} type="button" onClick={resetForm} className="btn-secondary" style={{ flex: '1 1 200px' }}>
                                                 Cancelar
-                                            </button>
+                                            </motion.button>
                                         </div>
                                     </form>
                                 </div>
