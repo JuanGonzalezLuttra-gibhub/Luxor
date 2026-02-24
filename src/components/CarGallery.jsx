@@ -69,8 +69,10 @@ const CarGallery = ({ cars }) => {
                                         {car.categoria}
                                     </span>
                                     <h3 style={{ margin: '0.5rem 0', fontSize: '1.5rem' }}>{car.marca} {car.modelo}</h3>
-                                    <p style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-                                        Desde <span className="silver-text">{(car.precio || 0).toLocaleString()}€</span>
+                                    <p style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--color-gray)' }}>
+                                        {car.tipoOperacion === 'venta' && 'Disponible para venta'}
+                                        {car.tipoOperacion === 'alquiler' && 'Disponible para alquiler'}
+                                        {(car.tipoOperacion === 'ambos' || !car.tipoOperacion) && 'Disponible para venta y alquiler'}
                                     </p>
                                     <div style={{
                                         display: 'flex',

@@ -138,8 +138,18 @@ const CarDetailPage = () => {
                         </span>
                         <h1 style={{ fontSize: '4rem', margin: '1rem 0', fontWeight: 800 }}>{car.marca} <span className="silver-text">{car.modelo}</span></h1>
 
-                        <div style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '2.5rem' }}>
-                            Desde <span className="silver-text">{(car.precio || 0).toLocaleString()}€</span>
+                        <div style={{ marginBottom: '2.5rem' }}>
+                            {(car.tipoOperacion === 'venta' || car.tipoOperacion === 'ambos' || !car.tipoOperacion) && (
+                                <div style={{ fontSize: '2rem', fontWeight: 800 }}>
+                                    Precio venta: <span className="silver-text">{(car.precioVenta || car.precio || 0).toLocaleString()}€</span>
+                                </div>
+                            )}
+                            {(car.tipoOperacion === 'alquiler' || car.tipoOperacion === 'ambos' || !car.tipoOperacion) && (
+                                <div style={{ marginTop: car.tipoOperacion === 'ambos' ? '1rem' : '0' }}>
+                                    <h3 style={{ fontSize: '1.25rem', color: 'var(--color-silver)', marginBottom: '0.5rem', fontWeight: 700 }}>Alquiler:</h3>
+                                    <p style={{ color: 'var(--color-gray)', fontSize: '1.125rem' }}>Tarifa personalizada según duración y temporada.</p>
+                                </div>
+                            )}
                         </div>
 
                         <p style={{ color: 'var(--color-gray)', fontSize: '1.125rem', lineHeight: 1.8, marginBottom: '3rem' }}>

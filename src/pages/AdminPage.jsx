@@ -19,7 +19,9 @@ const AdminPage = () => {
         categoria: 'SUV',
         descripcion: '',
         especificaciones: { motor: '', potencia: '', aceleracion: '', velocidadMax: '' },
-        estado: 'disponible'
+        estado: 'disponible',
+        tipoOperacion: 'venta',
+        precioVenta: ''
     });
 
     const CATEGORIES = ['SUV', 'Deportivo', 'Supercar', 'Berlina', 'Coupé'];
@@ -39,7 +41,9 @@ const AdminPage = () => {
         // Asegurar que el formato de imágenes sea el correcto para el estado
         const formattedCar = {
             ...car,
-            imagenes: car.imagenes || (car.images ? car.images.map((url, i) => ({ url, portada: i === 0 })) : [])
+            imagenes: car.imagenes || (car.images ? car.images.map((url, i) => ({ url, portada: i === 0 })) : []),
+            tipoOperacion: car.tipoOperacion || (car.precio ? 'venta' : 'alquiler'),
+            precioVenta: car.precioVenta || car.precio || ''
         };
         setFormData(formattedCar);
         setEditingId(car.id);
@@ -107,7 +111,9 @@ const AdminPage = () => {
         const carData = {
             marca: formData.marca,
             modelo: formData.modelo,
-            precio: cleanPrice || 0,
+            precio: cleanPrice || 0, // Mantener para compatibilidad
+            precioVenta: formData.tipoOperacion.includes('venta') ? cleanPrice : 0,
+            tipoOperacion: formData.tipoOperacion,
             categoria: formData.categoria,
             descripcion: formData.descripcion,
             imagenes: formData.imagenes,
@@ -140,7 +146,9 @@ const AdminPage = () => {
             categoria: 'SUV',
             descripcion: '',
             especificaciones: { motor: '', potencia: '', aceleracion: '', velocidadMax: '' },
-            estado: 'disponible'
+            estado: 'disponible',
+            tipoOperacion: 'venta',
+            precioVenta: ''
         });
         setEditingId(null);
         setUploading(false);
@@ -265,9 +273,23 @@ const AdminPage = () => {
                                                     <input required style={inputStyle} value={formData.modelo} onChange={e => setFormData({ ...formData, modelo: e.target.value })} placeholder="Ej: Urus" />
                                                 </div>
                                                 <div style={inputGroup}>
-                                                    <label style={labelStyle}>Precio (€)</label>
-                                                    <input required style={inputStyle} value={formData.precio} onChange={e => setFormData({ ...formData, precio: e.target.value })} placeholder="Ej: 350000" />
+                                                    <label style={labelStyle}>Tipo de Operación</label>
+                                                    <select
+                                                        style={inputStyle}
+                                                        value={formData.tipoOperacion}
+                                                        onChange={e => setFormData({ ...formData, tipoOperacion: e.target.value })}
+                                                    >
+                                                        <option value="venta">Venta</option>
+                                                        <option value="alquiler">Alquiler</option>
+                                                        <option value="ambos">Ambos (Venta y Alquiler)</option>
+                                                    </select>
                                                 </div>
+                                                {formData.tipoOperacion.includes('venta') && (
+                                                    <div style={inputGroup}>
+                                                        <label style={labelStyle}>Precio Venta (€)</label>
+                                                        <input required style={inputStyle} value={formData.precio} onChange={e => setFormData({ ...formData, precio: e.target.value })} placeholder="Ej: 350000" />
+                                                    </div>
+                                                )}
                                                 <div style={inputGroup}>
                                                     <label style={labelStyle}>Categoría</label>
                                                     <select
