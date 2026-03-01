@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Edit, Save, X, ArrowLeft, Image as ImageIcon, LayoutDashboard, Wrench, Camera } from 'lucide-react';
+import { Plus, Trash2, Edit, Save, X, ArrowLeft, Image as ImageIcon, LayoutDashboard, Wrench, Camera, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { carService } from '../services/carService';
 import { uploadImage } from '../services/cloudinaryService';
+import { signOut } from 'firebase/auth';
+import { auth } from '../services/firebase';
 
 const AdminPage = () => {
     const [cars, setCars] = useState([]);
@@ -175,14 +177,24 @@ const AdminPage = () => {
                         </Link>
                         <h1 style={{ fontSize: '3rem' }}>Gestión de <span className="silver-text">Inventario</span></h1>
                     </div>
-                    <motion.button
-                        onClick={() => setEditingId('new')}
-                        className="btn-primary"
-                        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-                        whileTap={{ scale: 0.97 }}
-                    >
-                        <Plus size={20} /> Añadir Vehículo
-                    </motion.button>
+                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                        <motion.button
+                            onClick={() => setEditingId('new')}
+                            className="btn-primary"
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                            whileTap={{ scale: 0.97 }}
+                        >
+                            <Plus size={20} /> Añadir Vehículo
+                        </motion.button>
+                        <motion.button
+                            onClick={() => signOut(auth)}
+                            className="btn-secondary"
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderColor: 'var(--color-dark-gray)' }}
+                            whileTap={{ scale: 0.97 }}
+                        >
+                            <LogOut size={20} /> Cerrar Sesión
+                        </motion.button>
+                    </div>
                 </div>
 
                 {/* Inventory List */}
