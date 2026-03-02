@@ -4,7 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyC8-RGskJd3gC4ptFi1EYJz6X3-imuD_QQ",
+    apiKey: "AIzaSyDrHECrPznmfAE3NGfjV4C7o5nOrLuqvks",
     authDomain: "luxor-66125.firebaseapp.com",
     projectId: "luxor-66125",
     storageBucket: "luxor-66125.firebasestorage.app",
